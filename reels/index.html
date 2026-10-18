@@ -39,8 +39,8 @@ summary:focus-visible,.copiar:focus-visible{outline:3px solid var(--accent);outl
 <body>
 <div class="wrap">
   <p class="kick">Pureza Natural · Reels de Instagram</p>
-  <h1>Siete reels que enseñan algo del agua.</h1>
-  <p class="lead">Videos cortos de 7 a 17 segundos, sin rostro, con música y sonido propios: cada movimiento suena en el momento exacto. Cada uno enseña una sola cosa e invita a guardar, compartir o comentar. Toca un video para verlo con sonido. <a href="../feed/">Ver el feed</a> · <a href="../destacadas/">Ver las historias destacadas</a> · <a href="../marca/">Ver la marca</a></p>
+  <h1>Ocho reels que enseñan algo del agua.</h1>
+  <p class="lead">Videos cortos de 7 a 33 segundos, sin rostro, con música y sonido propios: cada movimiento suena en el momento exacto. Cada uno enseña una sola cosa e invita a guardar, compartir o comentar. Toca un video para verlo con sonido. <a href="../feed/">Ver el feed</a> · <a href="../destacadas/">Ver las historias destacadas</a> · <a href="../marca/">Ver la marca</a></p>
   <div class="grilla" id="grilla"></div>
 </div>
 <script>
@@ -67,6 +67,9 @@ const REELS = [
   { id: 'reel-07-curacion', titulo: 'Así se cura tu purificador', gancho: 'Dato', ensena: 'por qué las primeras 4 cargas saben a arcilla y desde cuándo se puede tomar.', cta: 'Comentar',
     caption: 'Las primeras 4 cargas de tu purificador saben a arcilla. Es normal. Desde la quinta carga ya se puede tomar. Comenta AGUA y te envío el checklist de 5 preguntas antes de comprar.',
     tags: '#AguaPura #Villavicencio #PurificadorDeAgua #PurificadorPorGravedad #ComoFunciona' },
+  { id: 'reel-08-curacion', titulo: 'Tranquila, es normal', gancho: 'Pregunta', ensena: 'cómo curar tu purificador nuevo en 4 pasos para que deje de saber a barro.', cta: 'Guardar',
+    caption: '¿Tu purificador nuevo sabe a barro? Es normal: le falta la curación. 1) Lava la vasija de barro solo con tus manos. 2) Lava el vidrio con un poquito de jabón líquido. 3) Ármalo y llena la vasija hasta el tope. 4) Deja que pase toda el agua y repite 4 veces antes de tomar. Esa agua no se pierde: riega tus matas. Guárdalo para cuando armes el tuyo.',
+    tags: '#AguaPura #Villavicencio #PurificadorDeAgua #Curacion #HogarConsciente' },
 ];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 document.getElementById('grilla').innerHTML = REELS.map((r, i) => `
