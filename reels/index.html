@@ -39,8 +39,8 @@ summary:focus-visible,.copiar:focus-visible{outline:3px solid var(--accent);outl
 <body>
 <div class="wrap">
   <p class="kick">Pureza Natural · Reels de Instagram</p>
-  <h1>Nueve reels que enseñan algo del agua.</h1>
-  <p class="lead">Videos cortos de 7 a 34 segundos, sin rostro, con música y sonido propios: cada movimiento suena en el momento exacto. Cada uno enseña una sola cosa e invita a guardar, compartir o comentar. Toca un video para verlo con sonido. <a href="../feed/">Ver el feed</a> · <a href="../destacadas/">Ver las historias destacadas</a> · <a href="../marca/">Ver la marca</a></p>
+  <h1>Diez reels que enseñan algo del agua.</h1>
+  <p class="lead">Videos cortos de 7 a 48 segundos, sin rostro, con música y sonido propios: cada movimiento suena en el momento exacto. Cada uno enseña una sola cosa e invita a guardar, compartir o comentar. Toca un video para verlo con sonido. <a href="../feed/">Ver el feed</a> · <a href="../destacadas/">Ver las historias destacadas</a> · <a href="../marca/">Ver la marca</a></p>
   <div class="grilla" id="grilla"></div>
 </div>
 <script>
@@ -73,6 +73,9 @@ const REELS = [
   { id: 'reel-09-medidas', titulo: 'Mide tu mesón antes de elegir', gancho: 'Dato', ensena: 'el alto y el ancho de la base del vidrio, el peltre y el mini peltre, a la misma escala.', cta: 'Guardar',
     caption: 'Antes de elegir tu purificador, mide tu mesón: necesitas el ancho de la base y el alto libre. Vidrio: 45 cm de alto por 34,5 cm de ancho. Peltre: 42 por 32,5 cm. Mini peltre: 22 por 18 cm, para una sola persona. Guárdalo para medir tu mesón.',
     tags: '#AguaPura #Villavicencio #PurificadorDeAgua #Medidas #HogarConsciente' },
+  { id: 'reel-10-laboratorio', titulo: '16.000 coliformes → 0', gancho: 'Pregunta', ensena: 'qué midió el Laboratorio de Ingeniería Ambiental de la Universidad Nacional antes y después del purificador.', cta: 'Guardar',
+    caption: '16.000 coliformes totales en una muestra. 0 después del purificador. Lo midió el Laboratorio de Ingeniería Ambiental de la Universidad Nacional, acreditado NTC-ISO/IEC 17025. Turbiedad: de 40,5 a 1,94 UNT. Color: de 25 a 7 UPC. Era agua preparada en laboratorio, así que los resultados valen solo para esa muestra. Guárdalo.',
+    tags: '#AguaPura #Villavicencio #PurificadorDeAgua #AguaSegura #Llanos' },
 ];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 document.getElementById('grilla').innerHTML = REELS.map((r, i) => `
