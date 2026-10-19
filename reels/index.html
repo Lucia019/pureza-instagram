@@ -39,8 +39,8 @@ summary:focus-visible,.copiar:focus-visible{outline:3px solid var(--accent);outl
 <body>
 <div class="wrap">
   <p class="kick">Pureza Natural · Reels de Instagram</p>
-  <h1>Ocho reels que enseñan algo del agua.</h1>
-  <p class="lead">Videos cortos de 7 a 33 segundos, sin rostro, con música y sonido propios: cada movimiento suena en el momento exacto. Cada uno enseña una sola cosa e invita a guardar, compartir o comentar. Toca un video para verlo con sonido. <a href="../feed/">Ver el feed</a> · <a href="../destacadas/">Ver las historias destacadas</a> · <a href="../marca/">Ver la marca</a></p>
+  <h1>Nueve reels que enseñan algo del agua.</h1>
+  <p class="lead">Videos cortos de 7 a 34 segundos, sin rostro, con música y sonido propios: cada movimiento suena en el momento exacto. Cada uno enseña una sola cosa e invita a guardar, compartir o comentar. Toca un video para verlo con sonido. <a href="../feed/">Ver el feed</a> · <a href="../destacadas/">Ver las historias destacadas</a> · <a href="../marca/">Ver la marca</a></p>
   <div class="grilla" id="grilla"></div>
 </div>
 <script>
@@ -70,6 +70,9 @@ const REELS = [
   { id: 'reel-08-curacion', titulo: 'Tranquila, es normal', gancho: 'Pregunta', ensena: 'cómo curar tu purificador nuevo en 4 pasos para que deje de saber a barro.', cta: 'Guardar',
     caption: '¿Tu purificador nuevo sabe a barro? Es normal: le falta la curación. 1) Lava la vasija de barro solo con tus manos. 2) Lava el vidrio con un poquito de jabón líquido. 3) Ármalo y llena la vasija hasta el tope. 4) Deja que pase toda el agua y repite 4 veces antes de tomar. Esa agua no se pierde: riega tus matas. Guárdalo para cuando armes el tuyo.',
     tags: '#AguaPura #Villavicencio #PurificadorDeAgua #Curacion #HogarConsciente' },
+  { id: 'reel-09-medidas', titulo: 'Mide tu mesón antes de elegir', gancho: 'Dato', ensena: 'el alto y el ancho de la base del vidrio, el peltre y el mini peltre, a la misma escala.', cta: 'Guardar',
+    caption: 'Antes de elegir tu purificador, mide tu mesón: necesitas el ancho de la base y el alto libre. Vidrio: 45 cm de alto por 34,5 cm de ancho. Peltre: 42 por 32,5 cm. Mini peltre: 22 por 18 cm, para una sola persona. Guárdalo para medir tu mesón.',
+    tags: '#AguaPura #Villavicencio #PurificadorDeAgua #Medidas #HogarConsciente' },
 ];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 document.getElementById('grilla').innerHTML = REELS.map((r, i) => `
