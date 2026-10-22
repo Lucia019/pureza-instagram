@@ -264,20 +264,28 @@ $('foto').addEventListener('change', function(){
 });
 
 function abrirWA(avisoFoto){
-  var m = mensaje() + (avisoFoto ? '\n\n(Te envío mi foto en el siguiente mensaje 📷)' : '');
+  var m = mensaje() + (avisoFoto ? '\n\n(Te envío mi imagen del testimonial en el siguiente mensaje 📷)' : '');
   window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(m), '_blank', 'noopener');
 }
 
 $('enviar').addEventListener('click', function(){
-  var f = $('foto').files[0];
-  if(!f || !$('permiso').checked) return;
-  var data = { files:[f], text:mensaje() };
-  if(navigator.canShare && navigator.canShare(data)){
-    navigator.share(data).then(function(){ $('toast').textContent = 'Elige el chat de Pureza Natural para enviarlo. ¡Gracias!'; }).catch(function(){});
-  } else {
-    abrirWA(true);
-    $('toast').textContent = 'Se abrió WhatsApp con tu testimonial. Ahora adjunta tu foto en ese chat. ¡Gracias!';
-  }
+  if(!$('foto').files[0] || !$('permiso').checked) return;
+  cargarFuentes().then(function(){
+    dibujar();
+    $('arte').toBlob(function(blob){
+      var img = new File([blob], 'testimonio-pureza-natural.png', {type:'image/png'});
+      var data = { files:[img], text:mensaje() };
+      if(navigator.canShare && navigator.canShare(data)){
+        navigator.share(data).then(function(){ $('toast').textContent = 'Elige el chat de Pureza Natural para enviarlo. ¡Gracias!'; }).catch(function(){});
+      } else {
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = img.name;
+        document.body.appendChild(a); a.click(); a.remove();
+        abrirWA(true);
+        $('toast').textContent = 'Se descargó tu imagen y se abrió WhatsApp con tu texto. Adjunta la imagen en ese chat. ¡Gracias!';
+      }
+    }, 'image/png');
+  });
 });
 
 $('otra').addEventListener('click', function(){
