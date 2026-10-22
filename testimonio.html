@@ -200,12 +200,45 @@ claves.forEach(function(k){
   d.innerHTML = '<label for="c_' + k + '"></label><textarea id="c_' + k + '"></textarea>';
   d.querySelector('label').textContent = (claves.indexOf(k) + 1) + '. ' + CAMPOS[k][0] + (CAMPOS[k][2] ? ' (opcional)' : '');
   d.querySelector('textarea').placeholder = CAMPOS[k][1];
+  d.querySelector('textarea').maxLength = CAMPOS[k][2] ? 300 : 200;
   cont.appendChild(d);
 });
 
 function limpio(s){ return (s||'').replace(/\s+/g,' ').trim(); }
 function sinPunto(s){ return s.replace(/[\s.!?…,;:]+$/,''); }
-function minus(s){ return s.charAt(0).toLowerCase() + s.slice(1); }
+function minus(s){
+  var w = s.split(' ')[0];
+  if(/[A-ZÁÉÍÓÚÑ]/.test(w.slice(1))) return s;   /* siglas y marcas como AguaLogic se respetan */
+  return s.charAt(0).toLowerCase() + s.slice(1);
+}
+
+/* Limpieza de lo que escribe la clienta: gritos en mayúsculas, espacios y signos
+   sueltos, palabras repetidas y arranques que ya trae la frase ("Antes…", "Porque…"). */
+var ARRANQUES = {
+  a:/^(antes( de (tener|esto|el purificador))?)[,:]?\s+/i,
+  b:/^(ahora|hoy( en d[ií]a)?)[,:]?\s+/i,
+  c:/^(lo que m[aá]s (me gusta|disfruto|valoro)( del purificador)? es|me (gusta|encanta)( mucho)?)[,:]?\s+/i,
+  d:/^(porque|es que|ya que)[,:]?\s+/i,
+  e:/^(porque|es que|ya que)[,:]?\s+/i,
+  f:/^(llevo|hace|desde hace|lo uso desde hace|lo tengo desde hace|tengo (el purificador )?desde hace)[,:]?\s+/i,
+  g:/^(es )?para[,:]?\s+/i
+};
+function depurar(k, t){
+  t = limpio(t);
+  var letras = t.replace(/[^A-Za-zÁÉÍÓÚÑáéíóúñ]/g,'');
+  if(letras.length >= 6 && letras.replace(/[^A-ZÁÉÍÓÚÑ]/g,'').length / letras.length > 0.6) t = t.toLowerCase();
+  t = t.replace(/\s+([,.;:!?])/g,'$1')
+       .replace(/([,;:!?])(?=[^\s\d,.;:!?)"'])/g,'$1 ')
+       .replace(/([!?,;:])\1+/g,'$1')
+       .replace(/\.{2,}/g,'.')
+       .replace(/(^|\s)(\S+)(\s+\2)+(?=\s|$)/gi,'$1$2');
+  if(ARRANQUES[k]){
+    var sin = t.replace(ARRANQUES[k],'');
+    if(sin.length >= 3) t = sin;
+  }
+  return limpio(t);
+}
+
 
 var ultimo = null, elegidas = [];
 function armar(v, otra){
@@ -213,11 +246,11 @@ function armar(v, otra){
     var n;
     do { n = Math.floor(Math.random() * opts.length); } while(otra && opts.length > 1 && n === elegidas[i]);
     elegidas[i] = n;
-    return opts[n].replace(/\{\{(\w+)\}\}/g, function(_, k){ return minus(sinPunto(v[k])); });
+    return opts[n].replace(/\{\{(\w+)\}\}/g, function(_, k){ return minus(sinPunto(depurar(k, v[k]))); });
   });
-  var extra = sinPunto(v.h);
+  var extra = sinPunto(depurar('h', v.h));
   if(extra) partes.push(extra.charAt(0).toUpperCase() + extra.slice(1) + '.');
-  return partes.join(' ');
+  return partes.join(' ').replace(/\s+/g,' ').replace(/\.\s*\./g,'.').replace(/\s+([,.;:!?])/g,'$1');
 }
 
 var enviado = false;
@@ -226,7 +259,7 @@ $('form').addEventListener('submit', function(e){
   var v = {}, nums = [], falta = [];
   claves.forEach(function(k, i){
     v[k] = limpio($('c_' + k).value);
-    if(!v[k] && !CAMPOS[k][2]) nums.push(i + 1);
+    if(v[k].length < 3 && !CAMPOS[k][2]) nums.push(i + 1);
   });
   if(nums.length) falta.push((nums.length > 1 ? 'las preguntas ' : 'la pregunta ') + nums.join(', '));
   if(!$('foto').files.length) falta.push('tu foto');
@@ -234,7 +267,7 @@ $('form').addEventListener('submit', function(e){
   if(falta.length){
     $('errq').textContent = falta.join(' y ');
     $('err').classList.add('on');
-    var primero = claves.filter(function(k){return !v[k] && !CAMPOS[k][2];})[0];
+    var primero = claves.filter(function(k){return v[k].length < 3 && !CAMPOS[k][2];})[0];
     ($(primero ? 'c_' + primero : (!$('foto').files.length ? 'foto' : 'permiso'))).focus();
     return;
   }
