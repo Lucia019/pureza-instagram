@@ -327,54 +327,56 @@ function envolver(ctx, txt, maxW){
 }
 
 var FORMATOS = {
-  feed:  {nom:'feed',     H:1350, logoY:70,  cy:400, r:170, qY:700,  tTop:725,  tBot:1090, nameY:1135, bandY:1210, b1:1275, b2:1316, fs:46},
-  historia:{nom:'historia',H:1920, logoY:230, cy:690, r:210, qY:1020, tTop:1050, tBot:1500, nameY:1550, bandY:1590, b1:1690, b2:1740, fs:52},
-  cuadrado:{nom:'cuadrado',H:1080, logoY:48,  cy:290, r:130, qY:520,  tTop:540,  tBot:860,  nameY:905,  bandY:960,  b1:1010, b2:1048, fs:42}
+  feed:    {H:1350, ph:{x:60,y:60,w:960,h:640},  pill:{x:92,y:92},  cx:540, maxW:840, qY:835,  tTop:810,  tBot:1110, nameY:1155, bandY:1210, b1:1275, b2:1316, fs:46},
+  historia:{H:1920, ph:{x:60,y:200,w:960,h:760}, pill:{x:92,y:232}, cx:540, maxW:860, qY:1100, tTop:1075, tBot:1530, nameY:1550, bandY:1590, b1:1690, b2:1740, fs:52},
+  cuadrado:{H:1080, ph:{x:50,y:50,w:430,h:860},  pill:{x:70,y:70},  cx:765, maxW:470, qY:185,  tTop:170,  tBot:800,  nameY:850,  bandY:960,  b1:1010, b2:1048, fs:40}
 };
 var formato = 'feed';
 
+function rr(ctx, x, y, w, h, r){
+  ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+
 function dibujar(){
-  var F = FORMATOS[formato], W = 1080, H = F.H;
+  var F = FORMATOS[formato], W = 1080, H = F.H, P = F.ph, cx = F.cx;
   var cv = $('arte'), ctx = cv.getContext('2d');
   if(cv.height !== H){ cv.height = H; }
   ctx.clearRect(0,0,W,H);
   ctx.fillStyle = C.canvas; ctx.fillRect(0,0,W,H);
-  /* gota suave de fondo */
-  ctx.fillStyle = 'rgba(0,117,133,.07)';
-  ctx.beginPath(); ctx.arc(W-60, F.logoY+50, 260, 0, Math.PI*2); ctx.fill();
 
-  /* marca arriba */
-  if(logoImg.complete && logoImg.naturalWidth) ctx.drawImage(logoImg, 80, F.logoY, 64, 66);
-  ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
-  ctx.fillStyle = C.deep; ctx.font = "700 40px 'Bricolage Grotesque', sans-serif";
-  ctx.fillText('Pureza Natural', 164, F.logoY+44);
-
-  /* foto circular */
-  var cx = W/2, cy = F.cy, r = F.r;
-  ctx.fillStyle = C.accent; ctx.beginPath(); ctx.arc(cx, cy, r+14, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = C.canvas; ctx.beginPath(); ctx.arc(cx, cy, r+6, 0, Math.PI*2); ctx.fill();
-  ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.clip();
+  /* foto grande, recortada con el rostro hacia arriba */
+  ctx.save(); rr(ctx, P.x, P.y, P.w, P.h, 36); ctx.clip();
   if(fotoBmp){
-    var s = Math.max(2*r/fotoBmp.width, 2*r/fotoBmp.height), w = fotoBmp.width*s, h = fotoBmp.height*s;
-    ctx.drawImage(fotoBmp, cx-w/2, cy-h/2, w, h);
-  } else { ctx.fillStyle = C.line; ctx.fillRect(cx-r, cy-r, 2*r, 2*r); }
+    var s = Math.max(P.w/fotoBmp.width, P.h/fotoBmp.height), w = fotoBmp.width*s, h = fotoBmp.height*s;
+    ctx.drawImage(fotoBmp, P.x-(w-P.w)/2, P.y-(h-P.h)*0.3, w, h);
+  } else { ctx.fillStyle = C.line; ctx.fillRect(P.x, P.y, P.w, P.h); }
   ctx.restore();
+  ctx.strokeStyle = C.accent; ctx.lineWidth = 6; rr(ctx, P.x, P.y, P.w, P.h, 36); ctx.stroke();
+
+  /* marca sobre la foto, en una pastilla crema */
+  ctx.fillStyle = C.canvas; rr(ctx, F.pill.x, F.pill.y, 330, 84, 42); ctx.fill();
+  if(logoImg.complete && logoImg.naturalWidth) ctx.drawImage(logoImg, F.pill.x+18, F.pill.y+10, 60, 62);
+  ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
+  ctx.fillStyle = C.deep; ctx.font = "700 34px 'Bricolage Grotesque', sans-serif";
+  ctx.fillText('Pureza Natural', F.pill.x+92, F.pill.y+54);
 
   /* comilla */
   ctx.textAlign = 'center';
-  ctx.fillStyle = C.accent; ctx.font = "700 150px 'Bricolage Grotesque', sans-serif";
+  ctx.fillStyle = C.accent; ctx.font = "700 130px 'Bricolage Grotesque', sans-serif";
   ctx.fillText('\u201C', cx, F.qY);
 
   /* testimonio: se reduce la letra hasta que quepa */
   var txt = $('texto').value.trim().replace(/\s+/g,' ');
-  var maxW = 840, fs = F.fs, lin, lh;
+  var fs = F.fs, lin, lh;
   ctx.fillStyle = C.deep;
   for(; fs >= 22; fs -= 2){
     ctx.font = "600 " + fs + "px 'Bricolage Grotesque', sans-serif";
-    lin = envolver(ctx, txt, maxW); lh = fs*1.32;
-    if(lin.length*lh <= F.tBot-F.tTop) break;
+    lin = envolver(ctx, txt, F.maxW); lh = fs*1.32;
+    if(lin.length*lh <= F.tBot-F.tTop-(formato==='cuadrado'?40:0)) break;
   }
-  var y = F.tTop + (F.tBot-F.tTop-lin.length*lh)/2 + fs*0.9;
+  var y0 = F.tTop + (formato==='cuadrado'?40:0);
+  var y = y0 + (F.tBot-y0-lin.length*lh)/2 + fs*0.9;
   lin.forEach(function(l){ ctx.fillText(l, cx, y); y += lh; });
 
   /* nombre */
@@ -387,9 +389,9 @@ function dibujar(){
   /* franja inferior de marca */
   ctx.fillStyle = C.deep; ctx.fillRect(0, F.bandY, W, H-F.bandY);
   ctx.fillStyle = C.onDeep; ctx.font = "700 38px 'Bricolage Grotesque', sans-serif";
-  ctx.fillText('Claridad que cuida', cx, F.b1);
+  ctx.fillText('Claridad que cuida', W/2, F.b1);
   ctx.fillStyle = '#B9D0C9'; ctx.font = "500 24px 'IBM Plex Mono', monospace";
-  ctx.fillText('@PUREZANATURAL.VCIO', cx, F.b2);
+  ctx.fillText('@PUREZANATURAL.VCIO', W/2, F.b2);
 }
 
 function cargarFuentes(){
