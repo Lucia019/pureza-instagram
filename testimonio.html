@@ -67,6 +67,14 @@ input:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible,
 .arte{margin-top:26px;background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:clamp(20px,4vw,32px);box-shadow:0 30px 60px -40px rgba(23,76,70,.35)}
 .arte h2{font-family:'Bricolage Grotesque',sans-serif;color:var(--deep);font-size:1.6rem;line-height:1.1;letter-spacing:-.02em;margin:0 0 10px}
 .arte p{margin:0 0 16px;color:var(--text-secondary)}
+.fmts{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}
+.fmts label{margin:0;cursor:pointer}
+.fmts input{position:absolute;opacity:0;pointer-events:none}
+.fmts span{display:block;border:1.5px solid var(--deep);border-radius:14px;padding:10px 16px;font-weight:600;color:var(--deep);font-size:.95rem;line-height:1.25}
+.fmts small{display:block;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:.72rem;letter-spacing:.06em;color:var(--water)}
+.fmts input:checked + span{background:var(--deep);color:var(--on-deep)}
+.fmts input:checked + span small{color:var(--on-deep-2)}
+.fmts input:focus-visible + span{outline:3px solid var(--accent);outline-offset:3px}
 #arte{display:block;width:min(100%,420px);height:auto;border-radius:16px;border:1px solid var(--line);margin:0 auto 18px}
 .toast{margin-top:14px;font-size:.95rem;color:var(--water);min-height:1.4em}
 footer{padding:0 0 40px;text-align:center;color:var(--text-secondary);font-size:.9rem}
@@ -126,7 +134,12 @@ footer a{color:var(--deep)}
 
     <div class="arte">
       <h2>Imagen lista para redes</h2>
-      <p>Se arma sola con tu foto, tu testimonio y los colores de la marca (1080 × 1350, formato de Instagram). Si editas el texto, la imagen se actualiza.</p>
+      <p>Se arma sola con tu foto, tu testimonio y los colores de la marca (elige el formato: feed, historia o cuadrado). Si editas el texto, la imagen se actualiza.</p>
+      <div class="fmts" role="radiogroup" aria-label="Formato de la imagen">
+        <label><input type="radio" name="fmt" value="feed" checked><span>Feed y catálogo<small>1080 × 1350</small></span></label>
+        <label><input type="radio" name="fmt" value="historia"><span>Historia de Instagram<small>1080 × 1920</small></span></label>
+        <label><input type="radio" name="fmt" value="cuadrado"><span>Cuadrado, para la landing<small>1080 × 1080</small></span></label>
+      </div>
       <canvas id="arte" width="1080" height="1350" aria-label="Vista previa de la imagen del testimonial"></canvas>
       <div class="actions" style="margin-top:0"><button class="btn btn-cta" type="button" id="descargar">Descargar imagen</button>
         <button class="btn btn-line" type="button" id="nuevo">Hacer otro testimonial</button></div>
@@ -313,22 +326,31 @@ function envolver(ctx, txt, maxW){
   return lin;
 }
 
+var FORMATOS = {
+  feed:  {nom:'feed',     H:1350, logoY:70,  cy:400, r:170, qY:700,  tTop:725,  tBot:1090, nameY:1135, bandY:1210, b1:1275, b2:1316, fs:46},
+  historia:{nom:'historia',H:1920, logoY:230, cy:690, r:210, qY:1020, tTop:1050, tBot:1500, nameY:1550, bandY:1590, b1:1690, b2:1740, fs:52},
+  cuadrado:{nom:'cuadrado',H:1080, logoY:48,  cy:290, r:130, qY:520,  tTop:540,  tBot:860,  nameY:905,  bandY:960,  b1:1010, b2:1048, fs:42}
+};
+var formato = 'feed';
+
 function dibujar(){
-  var cv = $('arte'), ctx = cv.getContext('2d'), W = 1080, H = 1350;
+  var F = FORMATOS[formato], W = 1080, H = F.H;
+  var cv = $('arte'), ctx = cv.getContext('2d');
+  if(cv.height !== H){ cv.height = H; }
   ctx.clearRect(0,0,W,H);
   ctx.fillStyle = C.canvas; ctx.fillRect(0,0,W,H);
   /* gota suave de fondo */
   ctx.fillStyle = 'rgba(0,117,133,.07)';
-  ctx.beginPath(); ctx.arc(W-60, 120, 260, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(W-60, F.logoY+50, 260, 0, Math.PI*2); ctx.fill();
 
   /* marca arriba */
-  if(logoImg.complete && logoImg.naturalWidth) ctx.drawImage(logoImg, 80, 70, 64, 66);
+  if(logoImg.complete && logoImg.naturalWidth) ctx.drawImage(logoImg, 80, F.logoY, 64, 66);
   ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
   ctx.fillStyle = C.deep; ctx.font = "700 40px 'Bricolage Grotesque', sans-serif";
-  ctx.fillText('Pureza Natural', 164, 114);
+  ctx.fillText('Pureza Natural', 164, F.logoY+44);
 
   /* foto circular */
-  var cx = W/2, cy = 400, r = 170;
+  var cx = W/2, cy = F.cy, r = F.r;
   ctx.fillStyle = C.accent; ctx.beginPath(); ctx.arc(cx, cy, r+14, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle = C.canvas; ctx.beginPath(); ctx.arc(cx, cy, r+6, 0, Math.PI*2); ctx.fill();
   ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.clip();
@@ -341,33 +363,33 @@ function dibujar(){
   /* comilla */
   ctx.textAlign = 'center';
   ctx.fillStyle = C.accent; ctx.font = "700 150px 'Bricolage Grotesque', sans-serif";
-  ctx.fillText('\u201C', cx, 700);
+  ctx.fillText('\u201C', cx, F.qY);
 
   /* testimonio: se reduce la letra hasta que quepa */
   var txt = $('texto').value.trim().replace(/\s+/g,' ');
-  var areaTop = 725, areaBot = 1090, maxW = 840, fs = 46, lin, lh;
+  var maxW = 840, fs = F.fs, lin, lh;
   ctx.fillStyle = C.deep;
   for(; fs >= 22; fs -= 2){
     ctx.font = "600 " + fs + "px 'Bricolage Grotesque', sans-serif";
     lin = envolver(ctx, txt, maxW); lh = fs*1.32;
-    if(lin.length*lh <= areaBot-areaTop) break;
+    if(lin.length*lh <= F.tBot-F.tTop) break;
   }
-  var y = areaTop + (areaBot-areaTop-lin.length*lh)/2 + fs*0.9;
+  var y = F.tTop + (F.tBot-F.tTop-lin.length*lh)/2 + fs*0.9;
   lin.forEach(function(l){ ctx.fillText(l, cx, y); y += lh; });
 
   /* nombre */
   var nombre = limpio($('nombre').value);
   if(nombre){
     ctx.fillStyle = C.water; ctx.font = "500 30px 'IBM Plex Mono', monospace";
-    ctx.fillText(('\u2014 ' + nombre).toUpperCase(), cx, 1135);
+    ctx.fillText(('\u2014 ' + nombre).toUpperCase(), cx, F.nameY);
   }
 
   /* franja inferior de marca */
-  ctx.fillStyle = C.deep; ctx.fillRect(0, 1210, W, 140);
+  ctx.fillStyle = C.deep; ctx.fillRect(0, F.bandY, W, H-F.bandY);
   ctx.fillStyle = C.onDeep; ctx.font = "700 38px 'Bricolage Grotesque', sans-serif";
-  ctx.fillText('Claridad que cuida', cx, 1275);
+  ctx.fillText('Claridad que cuida', cx, F.b1);
   ctx.fillStyle = '#B9D0C9'; ctx.font = "500 24px 'IBM Plex Mono', monospace";
-  ctx.fillText('@PUREZANATURAL.VCIO', cx, 1316);
+  ctx.fillText('@PUREZANATURAL.VCIO', cx, F.b2);
 }
 
 function cargarFuentes(){
@@ -385,6 +407,9 @@ function actualizarArte(){
     : Promise.resolve(null);
   Promise.all([p, cargarFuentes()]).then(function(r){ fotoBmp = r[0]; dibujar(); });
 }
+document.querySelectorAll('input[name=fmt]').forEach(function(r){
+  r.addEventListener('change', function(){ formato = this.value; cargarFuentes().then(dibujar); });
+});
 $('texto').addEventListener('input', function(){ dibujar(); });
 $('descargar').addEventListener('click', function(){
   cargarFuentes().then(function(){
@@ -393,7 +418,7 @@ $('descargar').addEventListener('click', function(){
       var nombre = limpio($('nombre').value).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
       var a = document.createElement('a');
       a.href = URL.createObjectURL(b);
-      a.download = 'testimonio-pureza-natural' + (nombre ? '-' + nombre : '') + '.png';
+      a.download = 'testimonio-pureza-natural-' + formato + (nombre ? '-' + nombre : '') + '.png';
       document.body.appendChild(a); a.click(); a.remove();
       $('toast').textContent = 'Imagen descargada, lista para subir a tus redes.';
     }, 'image/png');
