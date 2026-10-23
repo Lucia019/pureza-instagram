@@ -39,7 +39,7 @@ summary:focus-visible,.copiar:focus-visible{outline:3px solid var(--accent);outl
 <body>
 <div class="wrap">
   <p class="kick">Pureza Natural · Reels de Instagram</p>
-  <h1>Trece reels que enseñan algo del agua.</h1>
+  <h1>Catorce reels que enseñan algo del agua.</h1>
   <p class="lead">Videos cortos de 7 a 48 segundos, sin rostro, con música y sonido propios: cada movimiento suena en el momento exacto. Cada uno enseña una sola cosa e invita a guardar, compartir o comentar. Toca un video para verlo con sonido. <a href="../feed/">Ver el feed</a> · <a href="../destacadas/">Ver las historias destacadas</a> · <a href="../marca/">Ver la marca</a></p>
   <div class="grilla" id="grilla"></div>
 </div>
@@ -85,6 +85,9 @@ const REELS = [
   { id: 'reel-repuesto-vasija', titulo: 'Cambia solo la vasija', gancho: 'Dato', ensena: 'qué hacer cuando la vasija de barro cumple sus 2 años.', cta: 'Preguntar',
     caption: 'Después de 2 años, la vasija de barro cumple su ciclo. No necesitas un purificador nuevo: cambia solo la vasija con el repuesto de Pureza Natural. La vasija vieja no se bota: conviértela en tu matera favorita. Cuidas el agua y cuidas el planeta. Pregúntanos por el repuesto.',
     tags: '#AguaPura #Villavicencio #PurificadorDeAgua #CuidaElPlaneta #RepuestoVasija' },
+  { id: 'reel-cinematico-vidrio', titulo: 'Acero, vidrio y barro: gota a gota', gancho: 'Visual', ensena: 'cómo es por dentro y por fuera el purificador por gravedad.', cta: 'Seguir',
+    caption: 'Acero y vidrio, pensados para tu mesón. Cada pieza lleva grabada su marca: AguaLogic. Aquí el agua cae por gravedad, gota a gota. Sin luz y sin botellones: barro y vidrio trabajando por ti. Pureza Natural, claridad que te cuida. Distribuidor autorizado de AguaLogic en Villavicencio. Síguenos para más.',
+    tags: '#AguaPura #Villavicencio #PurificadorDeAgua #AguaLogic #PurezaNatural' },
 ];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 document.getElementById('grilla').innerHTML = REELS.map((r, i) => `
