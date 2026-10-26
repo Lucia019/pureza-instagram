@@ -50,8 +50,8 @@ h1{font:700 clamp(2rem,4vw,3rem)/1.05 var(--display);letter-spacing:-.02em;color
 </div>
 <script>
 'use strict';
-const LAMINAS = ["Portada: 5 días hábiles y llega a tu casa","Comentas AGUA y te escribimos.","5 días hábiles en Villavicencio","En Villavicencio, el envío es gratis.","Pagas cuando lo recibes.","Lo pones en tu mesón.","Cierre: Comenta AGUA"];
-const CAPTION = "Pides, te lo llevamos y pagas al recibirlo. En Villavicencio llega en 5 días hábiles y el envío es gratis.\n\nEn otros municipios, 10 días hábiles. Pagas contraentrega o por Nequi.\n\nComenta AGUA y te escribimos.\n\nPureza Natural · Distribuidor autorizado de AguaLogic en Villavicencio.";
+const LAMINAS = ["Portada: 5 días hábiles y llega a tu casa","Comentas AGUA y te escribimos.","5 días hábiles en Villavicencio","En Villavicencio, el envío es gratis.","Pagas cuando lo recibes.","Lo pones en tu mesón.","Cierre: Comenta tu municipio y te decimos cuánto tarda"];
+const CAPTION = "Pides, te lo llevamos y pagas al recibirlo. En Villavicencio llega en 5 días hábiles y el envío es gratis.\n\nEn otros municipios, 10 días hábiles. Pagas contraentrega o por Nequi.\n\nComenta tu municipio y te decimos cuánto tarda.\n\nPureza Natural · Distribuidor autorizado de AguaLogic en Villavicencio.";
 const TAGS = "#PurezaNatural #AguaLogic #Villavicencio";
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 document.getElementById('grilla').innerHTML = LAMINAS.map((t, i) => {
