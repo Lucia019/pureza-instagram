@@ -39,7 +39,7 @@ summary:focus-visible,.copiar:focus-visible{outline:3px solid var(--accent);outl
 <body>
 <div class="wrap">
   <p class="kick">Pureza Natural · Reels de Instagram</p>
-  <h1>Quince reels que enseñan algo del agua.</h1>
+  <h1>Diecisiete reels que enseñan algo del agua.</h1>
   <p class="lead">Videos cortos de 7 a 48 segundos, sin rostro, con música y sonido propios: cada movimiento suena en el momento exacto. Cada uno enseña una sola cosa e invita a guardar, compartir o comentar. Toca un video para verlo con sonido. <a href="../feed/">Ver el feed</a> · <a href="../destacadas/">Ver las historias destacadas</a> · <a href="../marca/">Ver la marca</a></p>
   <div class="grilla" id="grilla"></div>
 </div>
@@ -91,6 +91,12 @@ const REELS = [
   { id: 'reel-agua-en-cada-etapa', titulo: 'El agua, en cada etapa de tu vida', gancho: 'Visual', ensena: 'dónde está el agua en tu día, desde que despiertas, y por qué vale la pena purificarla en casa.', cta: 'Compartir',
     caption: 'El agua está presente en cada etapa de tu vida: cuando despiertas, te hidratas, te mueves y lavas lo que comes. Por eso vale la pena purificarla en casa: por gravedad, gota a gota, sin luz. Pureza Natural, claridad que te cuida. Distribuidor autorizado de AguaLogic en Villavicencio. Compártelo con quien quiera cuidar su agua.',
     tags: '#AguaPura #Villavicencio #PurificadorDeAgua #AguaSegura #AguaLogic' },
+  { id: 'reel-capacidades-agualogic', titulo: 'Capacidades AguaLogic: 20 L, 8 L y 5,5 L', gancho: 'Comparativo', ensena: 'qué capacidad y qué medidas tiene cada purificador AguaLogic, para elegir el tamaño que cabe en tu cocina.', cta: 'Guardar',
+    caption: 'Tres tamaños de purificador AguaLogic: 20 L, 8 L y 5,5 L. Mira las medidas y piensa cuánta agua usa tu casa en un día. Guárdalo para comparar con calma. Pureza Natural, claridad que te cuida. Distribuidor autorizado de AguaLogic en Villavicencio.',
+    tags: '#AguaPura #Villavicencio #PurificadorDeAgua #AguaLogic #AguaSegura' },
+  { id: 'reel-mantenimiento-6-pasos', titulo: 'Mantenimiento del purificador en 6 pasos', gancho: 'Paso a paso', ensena: 'cómo limpiar tu purificador AguaLogic en seis pasos sencillos, sin jabón.', cta: 'Guardar',
+    caption: 'El mantenimiento del purificador, en 6 pasos: sencillo y sin complicarte. Guárdalo para tenerlo a la mano cuando te toque. Si te queda una duda, escríbenos. Pureza Natural, claridad que te cuida. Distribuidor autorizado de AguaLogic en Villavicencio.',
+    tags: '#AguaPura #Villavicencio #PurificadorDeAgua #AguaLogic #Mantenimiento' },
 ];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 document.getElementById('grilla').innerHTML = REELS.map((r, i) => `
