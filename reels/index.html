@@ -39,7 +39,7 @@ summary:focus-visible,.copiar:focus-visible{outline:3px solid var(--accent);outl
 <body>
 <div class="wrap">
   <p class="kick">Pureza Natural · Reels de Instagram</p>
-  <h1>Diecisiete reels que enseñan algo del agua.</h1>
+  <h1>Dieciocho reels que enseñan algo del agua.</h1>
   <p class="lead">Videos cortos de 7 a 48 segundos, sin rostro, con música y sonido propios: cada movimiento suena en el momento exacto. Cada uno enseña una sola cosa e invita a guardar, compartir o comentar. Toca un video para verlo con sonido. <a href="../feed/">Ver el feed</a> · <a href="../destacadas/">Ver las historias destacadas</a> · <a href="../marca/">Ver la marca</a></p>
   <div class="grilla" id="grilla"></div>
 </div>
@@ -97,6 +97,9 @@ const REELS = [
   { id: 'reel-mantenimiento-6-pasos', titulo: 'Mantenimiento del purificador en 6 pasos', gancho: 'Paso a paso', ensena: 'cómo limpiar tu purificador AguaLogic en seis pasos sencillos, sin jabón.', cta: 'Guardar',
     caption: 'El mantenimiento del purificador, en 6 pasos: sencillo y sin complicarte. Guárdalo para tenerlo a la mano cuando te toque. Si te queda una duda, escríbenos. Pureza Natural, claridad que te cuida. Distribuidor autorizado de AguaLogic en Villavicencio.',
     tags: '#AguaPura #Villavicencio #PurificadorDeAgua #AguaLogic #Mantenimiento' },
+  { id: 'reel-presentacion-marca', titulo: 'Pureza Natural: claridad que te cuida', gancho: 'Marca', ensena: 'quiénes somos y cómo llega a tu casa un purificador por gravedad AguaLogic.', cta: 'Seguir',
+    caption: 'Somos Pureza Natural, distribuidor autorizado de AguaLogic en Villavicencio. Barro, vidrio y gravedad: el agua cae gota a gota, sin luz. Llega listo para armar, con su manual de instalación y mantenimiento. Claridad que te cuida. Síguenos para ver más.',
+    tags: '#PurezaNatural #Villavicencio #PurificadorDeAgua #AguaLogic #AguaSegura' },
 ];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 document.getElementById('grilla').innerHTML = REELS.map((r, i) => `
